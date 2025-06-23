@@ -1,19 +1,21 @@
 import userData from '../fixtures/users/userData.json'
+import LoginPage from '../pages/loginPage'
+import DashboardPage from '../pages/dashboardPage'
+import NavbarPage from '../pages/navbarPage'
+
+const loginPage = new LoginPage()
+const dashboardPage = new DashboardPage()
+const navbarPage = new NavbarPage()
 
 describe('Orange HRM Tests', () => {
 
   const selectorsList = {
-    usernameField: "[name='username']",
-    passwordField: "[name='password']",
-    loginButton: "[type='submit']",
-    dashboardGrid: '.orangehrm-dashboard-grid',
-    loginErrorAlert: "[role='alert']",
-    myInfoButton: "[href='/web/index.php/pim/viewMyDetails']",
+    
     firstNameField: "[name='firstName']",
     middleNameField: "[name='middleName']",
     lastNameField: "[name='lastName']",
     genericField: ".oxd-input--active",
-    dateField: "[placeholder='yyyy-dd-mm']",
+    dateField: "[placeholder='yyyy-mm-dd']",
     dateCloseButton: ".--close",
     submitButton: "[type='submit']",
     genericCombobox: ".oxd-select-wrapper",
@@ -21,14 +23,12 @@ describe('Orange HRM Tests', () => {
     genderField: ".oxd-radio-wrapper"
   }
   
-  it.only('User Info Update - Success', () => {
-    cy.visit('auth/login')
-    cy.get(selectorsList.usernameField).type(userData.userSuccess.username)
-    cy.get(selectorsList.passwordField).type(userData.userSuccess.password)
-    cy.get(selectorsList.loginButton).click()
-    cy.location('pathname').should('equal', '/web/index.php/dashboard/index')
-    cy.get(selectorsList.dashboardGrid)
-    cy.get(selectorsList.myInfoButton).click()
+  it('User Info Update - Success', () => {
+    loginPage.accessLoginPage()
+    loginPage.loginWithAnyUser(userData.userSuccess.username, userData.userSuccess.password)
+    dashboardPage.checkDashboardPage()
+    navbarPage.goToMyInfo()
+
     cy.get(selectorsList.firstNameField).clear().type('Test First Name')
     cy.get(selectorsList.middleNameField).clear().type('Test Middle Name')
     cy.get(selectorsList.lastNameField).clear().type('Test Last Name')
