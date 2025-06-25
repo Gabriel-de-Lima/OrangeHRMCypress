@@ -5,7 +5,7 @@ import DashboardPage from '../pages/dashboardPage'
 const loginPage = new LoginPage()
 const dashboardPage = new DashboardPage()
 
-describe('Orange HRM Tests', () => {
+describe('Login Orange HRM Tests', () => {
   
   it('Login - Success', () => {
     loginPage.accessLoginPage()
